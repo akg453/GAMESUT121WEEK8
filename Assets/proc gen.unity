@@ -155,6 +155,7 @@ MonoBehaviour:
   seedType: 0
   seed: 0
   cellPrefab: {fileID: 241486025393663299, guid: ca1e0b6affaccf24293902785821e1a9, type: 3}
+  something: {fileID: 3148998529502205880, guid: 924ff055b0c8a71439fc79d5edd906e8, type: 3}
   animatedPath: 0
   gridCellList:
   - location: {x: 0, y: 0}

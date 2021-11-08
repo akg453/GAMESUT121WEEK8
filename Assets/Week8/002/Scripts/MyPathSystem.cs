@@ -15,6 +15,8 @@ public class MyPathSystem : MonoBehaviour {
     public GameObject cellPrefab;
     public GameObject something;
 
+    public GameObject thingToSpawn;
+
     [Space]
     public bool animatedPath;
     public List<GridCell> gridCellList = new List<GridCell>();
@@ -22,6 +24,8 @@ public class MyPathSystem : MonoBehaviour {
 
     [Range(1.0f, 7.0f)]
     public float cellSize = 1.0f;
+
+    
 
 
     void SetSeed() {
@@ -45,9 +49,15 @@ public class MyPathSystem : MonoBehaviour {
     void CreatePath() {
         
         gridCellList.Clear();
-        Vector2 currentPosition = new Vector2(-15.0f, -9.0f);
+        
+        Vector2 currentPosition = startLocation.transform.positioning;
+        MyGridCell gc = new MyGridCell(currentPosition);
+        gridCellList.Add(gc);
 
-        gridCellList.Add(new GridCell(currentPosition));
+        
+        BoxCollider2D bc = go.AddComponent<BoxCollider2D>();
+        Instantiate(thingToSpawn, currentPosition, Quaternion.identity);
+
         Instantiate(cellPrefab, currentPosition, Quaternion.identity);
 
         for (int i = 0; i < pathLength; i++) {
@@ -65,8 +75,22 @@ public class MyPathSystem : MonoBehaviour {
             else {
                 currentPosition = new Vector2(currentPosition.x, currentPosition.y + cellSize);
             }
-
+            //make new grid and change position
             gridCellList.Add(new GridCell(currentPosition));
+
+           int y = random.Next(100);
+            if(y > 0 && y < 49)
+            {
+                Instantiate(thingToSpawn, currentPosition, Quaternion.identity);
+                Debug.Log("Spawning a Peg");
+            }
+            else
+            {
+                Debug.Log("Not Spawning");
+            }
+
+
+            GameObject go = Instantiate(new GameObject("Block"), currentPosition, Quaternion.identity);
             Instantiate(cellPrefab, currentPosition, Quaternion.identity);
         }
     }
