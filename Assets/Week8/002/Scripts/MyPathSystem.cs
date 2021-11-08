@@ -13,6 +13,7 @@ public class MyPathSystem : MonoBehaviour {
     public int seed = 0;
 
     public GameObject cellPrefab;
+    public GameObject something;
 
     [Space]
     public bool animatedPath;
@@ -30,7 +31,19 @@ public class MyPathSystem : MonoBehaviour {
             random = new System.Random(seed);
     }
 
+    private void Start()
+    {
+            SetSeed();
+            if (animatedPath)
+            {
+                StartCoroutine(CreatePathRoutine());
+            }
+            else
+                CreatePath();
+        
+    }
     void CreatePath() {
+        
         gridCellList.Clear();
         Vector2 currentPosition = new Vector2(-15.0f, -9.0f);
 
@@ -43,6 +56,11 @@ public class MyPathSystem : MonoBehaviour {
 
             if (n > 0 && n < 49) {
                 currentPosition = new Vector2(currentPosition.x + cellSize, currentPosition.y);
+            }
+            if (random.NextDouble() < 0.2)
+            {
+                Instantiate(something, currentPosition, Quaternion.identity);
+                Instantiate(cellPrefab, currentPosition, Quaternion.identity);
             }
             else {
                 currentPosition = new Vector2(currentPosition.x, currentPosition.y + cellSize);
@@ -87,14 +105,9 @@ public class MyPathSystem : MonoBehaviour {
     }
 
     private void Update() {
-        if (Input.GetKeyDown(KeyCode.Space)) {
-
-            SetSeed();
-            if (animatedPath) {
-                StartCoroutine(CreatePathRoutine());
-            }
-            else
-                CreatePath();
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            UnityEngine.SceneManagement.SceneManager.LoadScene(0);
         }
     }
 
