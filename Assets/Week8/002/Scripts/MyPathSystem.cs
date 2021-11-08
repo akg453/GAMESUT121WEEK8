@@ -12,6 +12,8 @@ public class MyPathSystem : MonoBehaviour {
     System.Random random;
     public int seed = 0;
 
+    public GameObject cellPrefab;
+
     [Space]
     public bool animatedPath;
     public List<GridCell> gridCellList = new List<GridCell>();
@@ -33,6 +35,7 @@ public class MyPathSystem : MonoBehaviour {
         Vector2 currentPosition = new Vector2(-15.0f, -9.0f);
 
         gridCellList.Add(new GridCell(currentPosition));
+        Instantiate(cellPrefab, currentPosition, Quaternion.identity);
 
         for (int i = 0; i < pathLength; i++) {
 
@@ -46,7 +49,7 @@ public class MyPathSystem : MonoBehaviour {
             }
 
             gridCellList.Add(new GridCell(currentPosition));
-
+            Instantiate(cellPrefab, currentPosition, Quaternion.identity);
         }
     }
 
