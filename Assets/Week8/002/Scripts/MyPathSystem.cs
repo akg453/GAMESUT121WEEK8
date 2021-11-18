@@ -20,8 +20,10 @@ public class MyPathSystem : MonoBehaviour
 
     [Space]
     public bool animatedPath;
-    public List<GridCell> gridCellList = new List<GridCell>();
+    public List<MyGridCell> gridCellList = new List<MyGridCell>();
     public int pathLength = 10;
+
+    public Transform startLocation;
 
     [Range(1.0f, 7.0f)]
     public float cellSize = 1.0f;
@@ -53,15 +55,15 @@ public class MyPathSystem : MonoBehaviour
 
         gridCellList.Clear();
 
-        Vector2 currentPosition = startLocation.transform.positioning;
+        Vector2 currentPosition = startLocation.position;
         MyGridCell gc = new MyGridCell(currentPosition);
         gridCellList.Add(gc);
 
 
-        BoxCollider2D bc = go.AddComponent<BoxCollider2D>();
-        Instantiate(thingToSpawn, currentPosition, Quaternion.identity);
+        
+        GameObject c = Instantiate(cellPrefab, currentPosition, Quaternion.identity);
 
-        Instantiate(cellPrefab, currentPosition, Quaternion.identity);
+        c.AddComponent<BoxCollider2D>();
 
         for (int i = 0; i < pathLength; i++)
         {
@@ -74,7 +76,6 @@ public class MyPathSystem : MonoBehaviour
             }
             if (random.NextDouble() < 0.2)
             {
-                Instantiate(something, currentPosition, Quaternion.identity);
                 Instantiate(cellPrefab, currentPosition, Quaternion.identity);
             }
             else
@@ -82,12 +83,11 @@ public class MyPathSystem : MonoBehaviour
                 currentPosition = new Vector2(currentPosition.x, currentPosition.y + cellSize);
             }
             //make new grid and change position
-            gridCellList.Add(new GridCell(currentPosition));
+            gridCellList.Add(new MyGridCell(currentPosition));
 
             int y = random.Next(100);
             if (y > 0 && y < 49)
             {
-                Instantiate(thingToSpawn, currentPosition, Quaternion.identity);
                 Debug.Log("Spawning a Peg");
             }
             else
@@ -107,7 +107,7 @@ public class MyPathSystem : MonoBehaviour
         gridCellList.Clear();
         Vector2 currentPosition = new Vector2(-15.0f, -9.0f);
 
-        gridCellList.Add(new GridCell(currentPosition));
+        gridCellList.Add(new MyGridCell(currentPosition));
 
         for (int i = 0; i < pathLength; i++)
         {
@@ -123,7 +123,7 @@ public class MyPathSystem : MonoBehaviour
                 currentPosition = new Vector2(currentPosition.x, currentPosition.y + cellSize);
             }
 
-            gridCellList.Add(new GridCell(currentPosition));
+            gridCellList.Add(new MyGridCell(currentPosition));
             yield return null;
         }
     }
